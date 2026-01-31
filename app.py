@@ -24,7 +24,11 @@ def clean_amazon_image(url):
 class SearchInput(BaseModel):
     upc: str
 
+@app.get("/")
+def home():
+    return {"status": "Amazon scraper API running"}
 
+    
 @app.post("/search")
 def search_product(data: SearchInput):
 
