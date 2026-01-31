@@ -39,18 +39,18 @@ def search_products(data: SearchInput):
 
             asin = item.get_attribute("data-asin")
 
-                title_el = item.query_selector("h2 span")
-                title = title_el.inner_text().strip() if title_el else ""
+            title_el = item.query_selector("h2 span")
+            title = title_el.inner_text().strip() if title_el else ""
 
-                img_el = item.query_selector("img.s-image")
-                image = img_el.get_attribute("src") if img_el else ""
-                image = clean_amazon_image(image)
+            img_el = item.query_selector("img.s-image")
+            image = img_el.get_attribute("src") if img_el else ""
+            image = clean_amazon_image(image)
 
-                link_el = item.query_selector("h2 a")
-                link = (
-                    "https://www.amazon.com" + link_el.get_attribute("href")
-                    if link_el else ""
-                )
+            link_el = item.query_selector("h2 a")
+            link = (
+                "https://www.amazon.com" + link_el.get_attribute("href")
+                if link_el else ""
+            )
 
                 # results.append({
                 #     "SKU": upc,
