@@ -59,10 +59,9 @@ def search_products(data: SearchInput):
                 #     "Image": image,
                 #     "AmazonURL": link
                 # })
-
-            except Exception as e:
-                print("Error:", upc, e)
-
+        except Exception as e:
+            print("Error:", upc, e)
+            
         browser.close()
 
-    return {"results": results}
+    return {"results": results,"item":item}
