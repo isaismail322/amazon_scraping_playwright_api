@@ -1,11 +1,10 @@
-from fastapi import FastAPI
+# from fastapi import FastAPI
 from pydantic import BaseModel
 from playwright.sync_api import sync_playwright
 import random
 import time
 import re
 
-app = FastAPI()
 
 MIN_DELAY = 2
 MAX_DELAY = 9  # Reduced from 9 for better user experience
@@ -24,24 +23,9 @@ def clean_amazon_image(url):
     return url
 
 
-class SearchInput(BaseModel):
-    upc: int
+def search_product_function(data):
+    upc = data.strip()
 
-
-@app.get("/")
-def home():
-    """Health check endpoint"""
-    return {"status": "Amazon scraper API running", "version": "1.0"}
-
-
-@app.post("/search")
-def search_product(data: SearchInput):
-    """
-    Search for a product on Amazon by UPC
-    Returns product details including ASIN, title, image, and URL
-    """
-    upc = data.upc.strip()
-    
     if not upc:
         return {"error": "UPC cannot be empty", "SKU": upc}
 
@@ -75,7 +59,7 @@ def search_product(data: SearchInput):
             try:
                 page.wait_for_selector(
                     "div[data-component-type='s-search-result']",
-                    timeout=10000
+                    timeout=60000
                 )
             except Exception as wait_error:
                 print(f"Wait error: {wait_error}")
@@ -151,8 +135,3 @@ def search_product(data: SearchInput):
             "error": f"An error occurred: {str(e)}",
             "SKU": upc
         }
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
